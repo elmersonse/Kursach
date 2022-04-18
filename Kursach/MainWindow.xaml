@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Kursach"
         mc:Ignorable="d"
         Title="Китица ПО-31 курсовая" Height="450" Width="800"
-        Background="{DynamicResource ListBoxBackgroundBrush}">
+        Background="White">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>

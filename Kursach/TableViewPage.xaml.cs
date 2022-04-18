@@ -20,14 +20,27 @@ namespace Kursach
     /// </summary>
     public partial class TableViewPage : Page
     {
+
         public TableViewPage()
         {
             InitializeComponent();
+            DataContext = new ViewModel();
         }
 
-        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+        private void TablesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (TablesListBox.SelectedIndex != -1)
+            {
 
+            }
+        }
+
+        private void ViewsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ViewsListBox.SelectedIndex != -1)
+            {
+
+            }
         }
     }
 }

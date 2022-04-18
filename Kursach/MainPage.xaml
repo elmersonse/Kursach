@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MainPage"
-      Background="{DynamicResource ListBoxBackgroundBrush}">
+      Background="White">
 
     <StackPanel>
         <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="30">Курсовая работа "Детский летний лагерь"</Label>

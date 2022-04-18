@@ -3,47 +3,48 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Kursach" xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+      xmlns:local="clr-namespace:Kursach" xmlns:syncfusion="http://schemas.syncfusion.com/wpf" d:DataContext="{d:DesignInstance Type=local:ViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TableViewPage"
-      Background="{DynamicResource ListBoxBackgroundBrush}">
+      Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            <ColumnDefinition Width="0.4*" MaxWidth="400"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="0.8*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Column="0">
-            <Label DockPanel.Dock="Top" Margin="10 0">Таблицы</Label>
-            <ListBox Margin="10 0 0 10">
-                <ListBoxItem>qwe</ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem Selected="ListBoxItem_Selected"></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-            </ListBox>
-        </DockPanel>
-        <DockPanel Grid.Column="0" Grid.Row="1">
-            <Label DockPanel.Dock="Top" Margin="10 0">Представления</Label>
-            <!--<ListBox Margin="10 0 0 10">
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-                <ListBoxItem></ListBoxItem>
-            </ListBox>-->
-            <syncfusion:SfAccordion>
-                <syncfusion:SfAccordionItem Header="WPF" Content="Essential Studio for WPF"/>
-                <syncfusion:SfAccordionItem Header="Silverlight" Content="Essential Studio for Silverlight"/>
-                <syncfusion:SfAccordionItem Header="WinRT" Content="Essential Studio for WinRT"/>
-                <syncfusion:SfAccordionItem Header="Windows Phone" Content="Essential Studio for Windows Phone"/>
-                <syncfusion:SfAccordionItem Header="Universal" Content="Essential Studio for Universal"/>
-            </syncfusion:SfAccordion>
-        </DockPanel>
-        <DataGrid Background="{DynamicResource ListBoxBackgroundBrush}" Grid.Column="1" Grid.RowSpan="2" Margin="10"></DataGrid>
+        <syncfusion:SfAccordion Grid.RowSpan="2" SelectionMode="ZeroOrMore" Margin="10 10 0 10" AccentBrush="White" >
+            <syncfusion:SfAccordion.HeaderTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding}" Foreground="Black" Opacity="1" FontFamily="Verdana" FontSize="14" Height="28" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </syncfusion:SfAccordion.HeaderTemplate>
+            <syncfusion:SfAccordionItem Header="Таблицы">
+                <ListBox Name="TablesListBox" SelectionChanged="TablesListBox_SelectionChanged" BorderThickness="0" SelectedIndex="{Binding SelectedIndexA}">
+                    <ListBoxItem>T1</ListBoxItem>
+                    <ListBoxItem>T2</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                    <ListBoxItem>T3</ListBoxItem>
+                </ListBox>
+            </syncfusion:SfAccordionItem>
+            <syncfusion:SfAccordionItem Header="Представления">
+                <ListBox Name="ViewsListBox" SelectionChanged="ViewsListBox_SelectionChanged" BorderThickness="0" SelectedIndex="{Binding SelectedIndexB}">
+                    <ListBoxItem>P1</ListBoxItem>
+                    <ListBoxItem>P2</ListBoxItem>
+                    <ListBoxItem>P3</ListBoxItem>
+                </ListBox>
+            </syncfusion:SfAccordionItem>
+        </syncfusion:SfAccordion>
+        <DataGrid Grid.Column="1" Grid.RowSpan="2" Margin="10"></DataGrid>
     </Grid>
 </Page>
