@@ -1,0 +1,35 @@
+﻿<Window x:Class="Kursach.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kursach"
+        mc:Ignorable="d"
+        Title="Китица ПО-31 курсовая" Height="450" Width="800"
+        Background="{DynamicResource ListBoxBackgroundBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Frame Name="TopFrame" Grid.Row="0">
+            <Frame.Content>
+                <Grid x:Name="G1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Height="25" Grid.Column="0" Name="MainPageButton" Content="Главная страница" Click="Button_Click" />
+                    <Button Height="25" Grid.Column="1" Name="TableViewButton" Content="Просмотр таблиц" Click="Button_Click_1" />
+                    <Button Height="25" Grid.Column="2" Name="b1" Content="Soon" Click="Button_Click_1" />
+                    <Button Height="25" Grid.Column="3" Name="b2" Content="Soon" Click="Button_Click_1" />
+                    <Button Height="25" Grid.Column="4" Name="b3" Content="Soon" Click="Button_Click_1" />
+                </Grid>
+            </Frame.Content>
+        </Frame>
+        <Frame Grid.Row="1" Name="BottomFrame" Source="MainPage.xaml" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>
