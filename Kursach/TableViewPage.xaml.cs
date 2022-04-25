@@ -102,38 +102,47 @@ namespace Kursach
                                 _reader.Close();
                                 break;
                             case 5:
-                                _command.CommandText = "select * from Мероприятие";
+                                _command.CommandText = "select * from Мероприятие_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[1].Header = "Тип мероприятия";
                                 _reader.Close();
                                 break;
                             case 6:
-                                _command.CommandText = "select * from Отряд";
+                                _command.CommandText = "select * from Отряд_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[1].Header = "Фамилия вожатого";
+                                DataGrid.Columns[2].Header = "Дата начала смены";
                                 _reader.Close();
                                 break;
                             case 7:
-                                _command.CommandText = "select * from Ребёнок";
+                                _command.CommandText = "select * from Ребёнок_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[4].Header = "Дата рождения";
+                                DataGrid.Columns[5].Header = "Название отряда";
+                                DataGrid.Columns[6].Header = "Номер комнаты";
                                 _reader.Close();
                                 break;
                             case 8:
-                                _command.CommandText = "select * from Смена";
+                                _command.CommandText = "select * from Смена_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[0].Header = "Дата начала";
+                                DataGrid.Columns[1].Header = "Дата окончания";
                                 _reader.Close();
                                 break;
                             case 9:
-                                _command.CommandText = "select * from Участие_в_мероприятии";
+                                _command.CommandText = "select * from Участие_в_мероприятии_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[2].Header = "Дата проведения";
                                 _reader.Close();
                                 break;
                         }
