@@ -57,38 +57,48 @@ namespace Kursach
                         switch (TablesListBox.SelectedIndex)
                         {
                             case 0:
-                                _command.CommandText = "select * from Вожатый";
+                                _command.CommandText = "select * from Вожатый_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[3].Header = "Дата рождения";
                                 _reader.Close();
                                 break;
                             case 1:
-                                _command.CommandText = "select * from Запись_в_кружок";
+                                _command.CommandText = "select * from Запись_в_кружок_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[3].Header = "Дата записи";
                                 _reader.Close();
                                 break;
                             case 2:
-                                _command.CommandText = "select * from Комната";
+                                _command.CommandText = "select * from Комната_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[0].Header = "Номер комнаты";
+                                DataGrid.Columns[1].Header = "Номер корпуса";
+                                DataGrid.Columns[2].Header = "Тип комнаты";
+                                DataGrid.Columns[3].Header = "Количество мест";
                                 _reader.Close();
                                 break;
                             case 3:
-                                _command.CommandText = "select * from Корпус";
+                                _command.CommandText = "select * from Корпус_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[0].Header = "Номер корпуса";
+                                DataGrid.Columns[1].Header = "Тип корпуса";
                                 _reader.Close();
                                 break;
                             case 4:
-                                _command.CommandText = "select * from Кружок";
+                                _command.CommandText = "select * from Кружок_П";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
+                                DataGrid.Columns[0].Header = "Название";
+                                DataGrid.Columns[1].Header = "Номер комнаты";
                                 _reader.Close();
                                 break;
                             case 5:
