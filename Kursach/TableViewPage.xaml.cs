@@ -46,6 +46,7 @@ namespace Kursach
         {
             if (TablesListBox.SelectedIndex != -1)
             {
+                AddButton.IsEnabled = true;
                 try
                 {
                     using (_connection = new SqlConnection(_connectionString))
@@ -57,7 +58,7 @@ namespace Kursach
                         switch (TablesListBox.SelectedIndex)
                         {
                             case 0:
-                                _command.CommandText = "select * from Вожатый_П";
+                                _command.CommandText = "select Фамилия, Имя, Отчество, Дата_рождения, Телефон from Вожатый";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
@@ -84,7 +85,7 @@ namespace Kursach
                                 _reader.Close();
                                 break;
                             case 3:
-                                _command.CommandText = "select * from Корпус_П";
+                                _command.CommandText = "select Номер_корпуса, Тип_корпуса from Корпус";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
@@ -102,7 +103,7 @@ namespace Kursach
                                 _reader.Close();
                                 break;
                             case 5:
-                                _command.CommandText = "select * from Мероприятие_П";
+                                _command.CommandText = "select Название, Тип_мероприятия from Мероприятие";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
@@ -129,7 +130,7 @@ namespace Kursach
                                 _reader.Close();
                                 break;
                             case 8:
-                                _command.CommandText = "select * from Смена_П";
+                                _command.CommandText = "select Дата_начала, Дата_окончания from Смена";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
@@ -169,6 +170,28 @@ namespace Kursach
             {
                 (e.Column as DataGridTextColumn).Binding.StringFormat = "dd/MM/yyyy";
             }
+        }
+
+        private void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if(DataGrid.SelectedItem != null)
+            {
+                DeleteButton.IsEnabled = true;
+                EditButton.IsEnabled = true;
+            }
+            else
+            {
+                DeleteButton.IsEnabled = false;
+                EditButton.IsEnabled = false;
+            }
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid.Visibility = Visibility.Hidden;
+            ButtonGrid.Visibility = Visibility.Hidden;
+            TableFrame.Visibility = Visibility.Visible;
+            TableFrame.Navigate(new AddPages.CounselorAdd(DataGrid, ButtonGrid, TableFrame));
         }
     }
 }
