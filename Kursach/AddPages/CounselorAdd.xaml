@@ -31,18 +31,18 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10" MinWidth="200" Width="500">
             <Label>Фамилия</Label>
-            <TextBox></TextBox>
+            <TextBox Name="tb1"></TextBox>
             <Label>Имя</Label>
-            <TextBox></TextBox>
+            <TextBox Name="tb2"></TextBox>
             <Label>Отчество</Label>
-            <TextBox></TextBox>
+            <TextBox Name="tb3"></TextBox>
             <Label>Дата рождения</Label>
-            <DatePicker FontFamily="Verdana" FontSize="14"></DatePicker>
+            <DatePicker Name="tb4" FontFamily="Verdana" FontSize="14"></DatePicker>
             <Label>Телефон</Label>
-            <syncfusion:SfMaskedEdit Mask="\+375-\d{2}-\d{3}-\d{4}" MaskType="RegEx" ValueMaskFormat="ExcludePromptAndLiterals"></syncfusion:SfMaskedEdit>
+            <syncfusion:SfMaskedEdit Name="tb5" Mask="\+375-\d{2}-\d{3}-\d{4}" MaskType="RegEx" ValueMaskFormat="ExcludePromptAndLiterals" FontFamily="Verdana" FontSize="14" Height="28"></syncfusion:SfMaskedEdit>
         </StackPanel>
         
-        <Button Name="Confirm" Grid.Row="1" Margin="10">Добавить</Button>
+        <Button Name="Confirm" Grid.Row="1" Margin="10" Click="Confirm_Click">Добавить</Button>
         <Button Name="Back" Grid.Row="1" Grid.Column="1" Margin="10" Click="Back_Click">Назад</Button>
     </Grid>
 </Page>

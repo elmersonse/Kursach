@@ -34,5 +34,10 @@ namespace Kursach
         {
             BottomFrame.Source = new Uri("TableViewPage.xaml", UriKind.RelativeOrAbsolute);
         }
+
+        private void b3_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

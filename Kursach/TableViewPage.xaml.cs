@@ -22,7 +22,7 @@ namespace Kursach
     /// </summary>
     public partial class TableViewPage : Page
     {
-        private const string _connectionString = "Server=ALEXTRAZA\\SQLEXPRESS;Database=SummerCamp;Trusted_Connection=True;";
+        private const string _connectionString = "Server=PASHA\\SQLEXPRESS;Database='Летний лагерь';Trusted_Connection=True;";
         private SqlConnection _connection;
         private SqlCommand _command;
         private SqlDataReader _reader;
@@ -58,11 +58,12 @@ namespace Kursach
                         switch (TablesListBox.SelectedIndex)
                         {
                             case 0:
-                                _command.CommandText = "select Фамилия, Имя, Отчество, Дата_рождения, Телефон from Вожатый";
+                                _command.CommandText = "select * from Вожатый";
                                 _reader = _command.ExecuteReader();
                                 _table.Load(_reader);
                                 DataGrid.ItemsSource = _table.DefaultView;
                                 DataGrid.Columns[3].Header = "Дата рождения";
+                                DataGrid.Columns[0].Visibility = Visibility.Collapsed;
                                 _reader.Close();
                                 break;
                             case 1:
@@ -192,6 +193,33 @@ namespace Kursach
             ButtonGrid.Visibility = Visibility.Hidden;
             TableFrame.Visibility = Visibility.Visible;
             TableFrame.Navigate(new AddPages.CounselorAdd(DataGrid, ButtonGrid, TableFrame));
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            using(_connection = new SqlConnection(_connectionString))
+            {
+                _connection.Open();
+                
+                for(int i = 0; i < DataGrid.SelectedItems.Count; i++)
+                {
+                    DataRowView rw = DataGrid.SelectedItems[i] as DataRowView;
+                    _command = new SqlCommand("delete from Вожатый where Код = @code", _connection);
+                    MessageBox.Show(rw[0].ToString());
+                    _command.Parameters.Add("@code", SqlDbType.Int).Value = int.Parse(rw[0].ToString());
+                    _command.ExecuteNonQuery();
+                }
+                _command = new SqlCommand();
+                _command.Connection = _connection;
+                _command.CommandText = "select * from Вожатый";
+                _reader = _command.ExecuteReader();
+                _table.Clear();
+                _table.Load(_reader);
+                DataGrid.ItemsSource = _table.DefaultView;
+                DataGrid.Columns[3].Header = "Дата рождения";
+                DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                _reader.Close();
+            }
         }
     }
 }
