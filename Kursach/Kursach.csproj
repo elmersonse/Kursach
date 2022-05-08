@@ -94,11 +94,76 @@
     <Compile Include="AddPages\CounselorAdd.xaml.cs">
       <DependentUpon>CounselorAdd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddPages\KomnataAdd.xaml.cs">
+      <DependentUpon>KomnataAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\KorpusAdd.xaml.cs">
+      <DependentUpon>KorpusAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\KruzhokAdd.xaml.cs">
+      <DependentUpon>KruzhokAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\MeropriyatieAdd.xaml.cs">
+      <DependentUpon>MeropriyatieAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\OtryadAdd.xaml.cs">
+      <DependentUpon>OtryadAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\RebenokAdd.xaml.cs">
+      <DependentUpon>RebenokAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\SmenaAdd.xaml.cs">
+      <DependentUpon>SmenaAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\UchastieAdd.xaml.cs">
+      <DependentUpon>UchastieAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddPages\ZapisAdd.xaml.cs">
+      <DependentUpon>ZapisAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Repository.cs" />
     <Compile Include="TableViewPage.xaml.cs">
       <DependentUpon>TableViewPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="AddPages\CounselorAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\KomnataAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\KorpusAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\KruzhokAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\MeropriyatieAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\OtryadAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\RebenokAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\SmenaAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\UchastieAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddPages\ZapisAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -55,7 +55,7 @@
             </Grid.ColumnDefinitions>
             <Button Name="AddButton" Grid.Column="0" Margin="10" IsEnabled="False" Click="AddButton_Click">Добавить</Button>
             <Button Name="DeleteButton" Grid.Column="1" Margin="10" IsEnabled="False" Click="DeleteButton_Click">Удалить</Button>
-            <Button Name="EditButton" Grid.Column="2" Margin="10" IsEnabled="False">Изменить</Button>
+            <Button Name="EditButton" Grid.Column="2" Margin="10" IsEnabled="False" Click="EditButton_Click">Изменить</Button>
         </Grid>
     </Grid>
 </Page>

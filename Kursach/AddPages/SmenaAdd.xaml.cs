@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,19 +14,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-
 namespace Kursach.AddPages
 {
     /// <summary>
-    /// Логика взаимодействия для CounselorAdd.xaml
+    /// Логика взаимодействия для SmenaAdd.xaml
     /// </summary>
-    public partial class CounselorAdd : Page
+    public partial class SmenaAdd : Page
     {
         private DataGrid DataGrid;
         private Grid Grid;
         private Frame Frame;
 
-        public CounselorAdd(DataGrid datagrid, Grid grid, Frame frame)
+        public SmenaAdd(DataGrid datagrid, Grid grid, Frame frame)
         {
             InitializeComponent();
             DataGrid = datagrid;
@@ -39,7 +37,7 @@ namespace Kursach.AddPages
         private int check = 0;
         private string editcode;
 
-        public CounselorAdd(DataGrid datagrid, Grid grid, Frame frame, int c)
+        public SmenaAdd(DataGrid datagrid, Grid grid, Frame frame, int c)
         {
             InitializeComponent();
             check = c;
@@ -51,9 +49,6 @@ namespace Kursach.AddPages
             editcode = rw[0].ToString();
             tb1.Text = rw[1].ToString();
             tb2.Text = rw[2].ToString();
-            tb3.Text = rw[3].ToString();
-            tb4.Text = rw[4].ToString();
-            tb5.Text = rw[5].ToString();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -66,33 +61,30 @@ namespace Kursach.AddPages
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
-            if(tb4.Text.Length == 0)
+            if(tb1.Text == "")
             {
-                MessageBox.Show("Введите дату рождения!");
-                tb4.Focus();
+                MessageBox.Show("Выберите дату начала!");
+                tb1.Focus();
                 return;
             }
-            string temp;
-            if(!tb5.IsMaskCompleted)
+            if(tb2.Text == "")
             {
-                temp = "";
-            }
-            else
-            {
-                temp = tb5.Text;
+                MessageBox.Show("Выберите дату окончания!");
+                tb2.Focus();
+                return;
             }
             if(check == 0)
             {
-                Repository.AddVojatiy(tb1.Text, tb2.Text, tb3.Text, tb4.Text, temp);
+                Repository.AddSmena(tb1.Text, tb2.Text);
             }
-            else if(check == 1)
+            else
             {
-                Repository.EditVojatiy(tb1.Text, tb2.Text, tb3.Text, tb4.Text, temp, editcode);
+                Repository.EditSmena(tb1.Text, tb2.Text, editcode);
             }
-            
-            DataGrid.ItemsSource = Repository.LoadVojatiy().DefaultView;
+            DataGrid.ItemsSource = Repository.LoadSmena().DefaultView;
             DataGrid.Columns[0].Visibility = Visibility.Collapsed;
-            DataGrid.Columns[4].Header = "Дата рождения";
+            DataGrid.Columns[1].Header = "Дата начала";
+            DataGrid.Columns[2].Header = "Дата окончания";
             DataGrid.Visibility = Visibility.Visible;
             Grid.Visibility = Visibility.Visible;
             Frame.Visibility = Visibility.Hidden;

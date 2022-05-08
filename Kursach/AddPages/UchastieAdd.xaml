@@ -1,12 +1,12 @@
-﻿<Page x:Class="Kursach.AddPages.CounselorAdd"
+﻿<Page x:Class="Kursach.AddPages.UchastieAdd"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:local="clr-namespace:Kursach.AddPages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Добавить вожатого"
+      Title="UchastieAdd"
       Background="White">
     <Page.Resources>
         <Style TargetType="Label">
@@ -29,18 +29,14 @@
             <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10" MinWidth="200" Width="500">
-            <Label>Фамилия</Label>
-            <TextBox Name="tb1" PreviewTextInput="CheckLetter"></TextBox>
-            <Label>Имя</Label>
-            <TextBox Name="tb2" PreviewTextInput="CheckLetter"></TextBox>
-            <Label>Отчество</Label>
-            <TextBox Name="tb3" PreviewTextInput="CheckLetter"></TextBox>
-            <Label>Дата рождения</Label>
-            <DatePicker Name="tb4" FontFamily="Verdana" FontSize="14"></DatePicker>
-            <Label>Телефон</Label>
-            <xctk:MaskedTextBox Mask="+375000000000" Name="tb5" FontFamily="Verdana" FontSize="14" Height="28"></xctk:MaskedTextBox>
+            <Label>Мероприятие</Label>
+            <ComboBox Name="tb1" IsReadOnly="True" FontFamily="Verdana" FontSize="14"></ComboBox>
+            <Label>Отряд</Label>
+            <ComboBox Name="tb2" IsReadOnly="True" FontFamily="Verdana" FontSize="14"></ComboBox>
+            <Label>Дата проведения</Label>
+            <DatePicker Name="tb3" FontFamily="Verdana" FontSize="14"></DatePicker>
         </StackPanel>
-        
+
         <Button Name="Confirm" Grid.Row="1" Margin="10" Click="Confirm_Click">Добавить</Button>
         <Button Name="Back" Grid.Row="1" Grid.Column="1" Margin="10" Click="Back_Click">Назад</Button>
     </Grid>

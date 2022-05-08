@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kursach"
         mc:Ignorable="d"
-        Title="Китица ПО-31 курсовая" Height="450" Width="800"
+        Title="Китица ПО-31 курсовая" Height="650" Width="1000"
         Background="White">
     <Grid>
         <Grid.RowDefinitions>

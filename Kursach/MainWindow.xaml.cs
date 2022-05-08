@@ -23,6 +23,7 @@ namespace Kursach
         public MainWindow()
         {
             InitializeComponent();
+            Repository.OpenConnection();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

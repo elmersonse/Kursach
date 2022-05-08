@@ -22,137 +22,83 @@ namespace Kursach
     /// </summary>
     public partial class TableViewPage : Page
     {
-        private const string _connectionString = "Server=PASHA\\SQLEXPRESS;Database='Летний лагерь';Trusted_Connection=True;";
-        private SqlConnection _connection;
-        private SqlCommand _command;
-        private SqlDataReader _reader;
-        private DataTable _table;
 
         public TableViewPage()
         {
             InitializeComponent();
             DataContext = new ViewModel();
-            try
-            {
-                _connection = new SqlConnection(_connectionString);
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e);
-            }
         }
 
         private void TablesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            DataGrid.Visibility = Visibility.Visible;
+            ButtonGrid.Visibility = Visibility.Visible;
+            TableFrame.Visibility = Visibility.Hidden;
+            TableFrame.Source = null;
             if (TablesListBox.SelectedIndex != -1)
             {
                 AddButton.IsEnabled = true;
-                try
+                switch (TablesListBox.SelectedIndex)
                 {
-                    using (_connection = new SqlConnection(_connectionString))
-                    {
-                        _connection.Open();
-                        _command = new SqlCommand();
-                        _command.Connection = _connection;
-                        _table = new DataTable();
-                        switch (TablesListBox.SelectedIndex)
-                        {
-                            case 0:
-                                _command.CommandText = "select * from Вожатый";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[3].Header = "Дата рождения";
-                                DataGrid.Columns[0].Visibility = Visibility.Collapsed;
-                                _reader.Close();
-                                break;
-                            case 1:
-                                _command.CommandText = "select * from Запись_в_кружок_П";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[3].Header = "Дата записи";
-                                _reader.Close();
-                                break;
-                            case 2:
-                                _command.CommandText = "select * from Комната_П";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[0].Header = "Номер комнаты";
-                                DataGrid.Columns[1].Header = "Номер корпуса";
-                                DataGrid.Columns[2].Header = "Тип комнаты";
-                                DataGrid.Columns[3].Header = "Количество мест";
-                                _reader.Close();
-                                break;
-                            case 3:
-                                _command.CommandText = "select Номер_корпуса, Тип_корпуса from Корпус";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[0].Header = "Номер корпуса";
-                                DataGrid.Columns[1].Header = "Тип корпуса";
-                                _reader.Close();
-                                break;
-                            case 4:
-                                _command.CommandText = "select * from Кружок_П";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[0].Header = "Название";
-                                DataGrid.Columns[1].Header = "Номер комнаты";
-                                _reader.Close();
-                                break;
-                            case 5:
-                                _command.CommandText = "select Название, Тип_мероприятия from Мероприятие";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[1].Header = "Тип мероприятия";
-                                _reader.Close();
-                                break;
-                            case 6:
-                                _command.CommandText = "select * from Отряд_П";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[1].Header = "Фамилия вожатого";
-                                DataGrid.Columns[2].Header = "Дата начала смены";
-                                _reader.Close();
-                                break;
-                            case 7:
-                                _command.CommandText = "select * from Ребёнок_П";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[4].Header = "Дата рождения";
-                                DataGrid.Columns[5].Header = "Название отряда";
-                                DataGrid.Columns[6].Header = "Номер комнаты";
-                                _reader.Close();
-                                break;
-                            case 8:
-                                _command.CommandText = "select Дата_начала, Дата_окончания from Смена";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[0].Header = "Дата начала";
-                                DataGrid.Columns[1].Header = "Дата окончания";
-                                _reader.Close();
-                                break;
-                            case 9:
-                                _command.CommandText = "select * from Участие_в_мероприятии_П";
-                                _reader = _command.ExecuteReader();
-                                _table.Load(_reader);
-                                DataGrid.ItemsSource = _table.DefaultView;
-                                DataGrid.Columns[2].Header = "Дата проведения";
-                                _reader.Close();
-                                break;
-                        }
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine(ex);
+                    case 0:
+                        DataGrid.ItemsSource = Repository.LoadVojatiy().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[4].Header = "Дата рождения";
+                        break;
+                    case 1:
+                        DataGrid.ItemsSource = Repository.LoadZapis().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[4].Header = "Дата записи";
+                        break;
+                    case 2:
+                        DataGrid.ItemsSource = Repository.LoadKomnata().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[1].Header = "Номер комнаты";
+                        DataGrid.Columns[2].Header = "Номер корпуса";
+                        DataGrid.Columns[3].Header = "Тип комнаты";
+                        DataGrid.Columns[4].Header = "Количество мест";
+                        break;
+                    case 3:
+                        DataGrid.ItemsSource = Repository.LoadKorpus().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[1].Header = "Номер корпуса";
+                        DataGrid.Columns[2].Header = "Тип корпуса";
+                        break;
+                    case 4:
+                        DataGrid.ItemsSource = Repository.LoadKruzhok().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[1].Header = "Название";
+                        DataGrid.Columns[2].Header = "Номер комнаты";
+                        break;
+                    case 5:
+                        DataGrid.ItemsSource = Repository.LoadMeropriyatie().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[2].Header = "Тип мероприятия";
+                        break;
+                    case 6:
+                        DataGrid.ItemsSource = Repository.LoadOtryad().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[2].Header = "Фамилия вожатого";
+                        DataGrid.Columns[3].Header = "Дата начала смены";
+                        break;
+                    case 7:
+                        DataGrid.ItemsSource = Repository.LoadRebenok().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[5].Header = "Дата рождения";
+                        DataGrid.Columns[6].Header = "Название отряда";
+                        DataGrid.Columns[7].Header = "Номер комнаты";
+                        break;
+                    case 8:
+                        DataGrid.ItemsSource = Repository.LoadSmena().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[1].Header = "Дата начала";
+                        DataGrid.Columns[2].Header = "Дата окончания";
+                        break;
+                    case 9:
+                        DataGrid.ItemsSource = Repository.LoadUchastie().DefaultView;
+                        DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[3].Header = "Дата проведения";
+                        break;
                 }
             }
         }
@@ -192,33 +138,160 @@ namespace Kursach
             DataGrid.Visibility = Visibility.Hidden;
             ButtonGrid.Visibility = Visibility.Hidden;
             TableFrame.Visibility = Visibility.Visible;
-            TableFrame.Navigate(new AddPages.CounselorAdd(DataGrid, ButtonGrid, TableFrame));
+            if (TablesListBox.SelectedIndex != -1)
+            {
+                switch (TablesListBox.SelectedIndex)
+                {
+                    case 0:
+                        TableFrame.Navigate(new AddPages.CounselorAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 1:
+                        TableFrame.Navigate(new AddPages.ZapisAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 2:
+                        TableFrame.Navigate(new AddPages.KomnataAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 3:
+                        TableFrame.Navigate(new AddPages.KorpusAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 4:
+                        TableFrame.Navigate(new AddPages.KruzhokAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 5:
+                        TableFrame.Navigate(new AddPages.MeropriyatieAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 6:
+                        TableFrame.Navigate(new AddPages.OtryadAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 7:
+                        TableFrame.Navigate(new AddPages.RebenokAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 8:
+                        TableFrame.Navigate(new AddPages.SmenaAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                    case 9:
+                        TableFrame.Navigate(new AddPages.UchastieAdd(DataGrid, ButtonGrid, TableFrame));
+                        break;
+                }
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            using(_connection = new SqlConnection(_connectionString))
+            switch (TablesListBox.SelectedIndex)
             {
-                _connection.Open();
-                
-                for(int i = 0; i < DataGrid.SelectedItems.Count; i++)
+                case 0:
+                    Repository.DeleteVojatiy(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadVojatiy().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[4].Header = "Дата рождения";
+                    break;
+                case 1:
+                    Repository.DeleteZapis(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadZapis().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[4].Header = "Дата записи";
+                    break;
+                case 2:
+                    Repository.DeleteKomnata(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadKomnata().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[1].Header = "Номер комнаты";
+                    DataGrid.Columns[2].Header = "Номер корпуса";
+                    DataGrid.Columns[3].Header = "Тип комнаты";
+                    DataGrid.Columns[4].Header = "Количество мест";
+                    break;
+                case 3:
+                    Repository.DeleteKorpus(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadKorpus().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[1].Header = "Номер корпуса";
+                    DataGrid.Columns[2].Header = "Тип корпуса";
+                    break;
+                case 4:
+                    Repository.DeleteKruzhok(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadKruzhok().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[1].Header = "Название";
+                    DataGrid.Columns[2].Header = "Номер комнаты";
+                    break;
+                case 5:
+                    Repository.DeleteMeropriyatie(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadMeropriyatie().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[2].Header = "Тип мероприятия";
+                    break;
+                case 6:
+                    Repository.DeleteOtryad(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadOtryad().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[2].Header = "Фамилия вожатого";
+                    DataGrid.Columns[3].Header = "Дата начала смены";
+                    break;
+                case 7:
+                    Repository.DeleteRebenok(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadRebenok().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[5].Header = "Дата рождения";
+                    DataGrid.Columns[6].Header = "Название отряда";
+                    DataGrid.Columns[7].Header = "Номер комнаты";
+                    break;
+                case 8:
+                    Repository.DeleteSmena(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadSmena().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[1].Header = "Дата начала";
+                    DataGrid.Columns[2].Header = "Дата окончания";
+                    break;
+                case 9:
+                    Repository.DeleteUchastie(DataGrid);
+                    DataGrid.ItemsSource = Repository.LoadUchastie().DefaultView;
+                    DataGrid.Columns[0].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[3].Header = "Дата проведения";
+                    break;
+            }
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid.Visibility = Visibility.Hidden;
+            ButtonGrid.Visibility = Visibility.Hidden;
+            TableFrame.Visibility = Visibility.Visible;
+            if (TablesListBox.SelectedIndex != -1)
+            {
+                switch (TablesListBox.SelectedIndex)
                 {
-                    DataRowView rw = DataGrid.SelectedItems[i] as DataRowView;
-                    _command = new SqlCommand("delete from Вожатый where Код = @code", _connection);
-                    MessageBox.Show(rw[0].ToString());
-                    _command.Parameters.Add("@code", SqlDbType.Int).Value = int.Parse(rw[0].ToString());
-                    _command.ExecuteNonQuery();
+                    case 0:
+                        TableFrame.Navigate(new AddPages.CounselorAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 1:
+                        TableFrame.Navigate(new AddPages.ZapisAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 2:
+                        TableFrame.Navigate(new AddPages.KomnataAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 3:
+                        TableFrame.Navigate(new AddPages.KorpusAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 4:
+                        TableFrame.Navigate(new AddPages.KruzhokAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 5:
+                        TableFrame.Navigate(new AddPages.MeropriyatieAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 6:
+                        TableFrame.Navigate(new AddPages.OtryadAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 7:
+                        TableFrame.Navigate(new AddPages.RebenokAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 8:
+                        TableFrame.Navigate(new AddPages.SmenaAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
+                    case 9:
+                        TableFrame.Navigate(new AddPages.UchastieAdd(DataGrid, ButtonGrid, TableFrame, 1));
+                        break;
                 }
-                _command = new SqlCommand();
-                _command.Connection = _connection;
-                _command.CommandText = "select * from Вожатый";
-                _reader = _command.ExecuteReader();
-                _table.Clear();
-                _table.Load(_reader);
-                DataGrid.ItemsSource = _table.DefaultView;
-                DataGrid.Columns[3].Header = "Дата рождения";
-                DataGrid.Columns[0].Visibility = Visibility.Collapsed;
-                _reader.Close();
             }
         }
     }
