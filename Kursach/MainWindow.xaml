@@ -20,13 +20,11 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Button Height="25" Grid.Column="0" Name="MainPageButton" Content="Главная страница" Click="Button_Click" />
-                    <Button Height="25" Grid.Column="1" Name="TableViewButton" Content="Просмотр таблиц" Click="Button_Click_1" />
-                    <Button Height="25" Grid.Column="2" Name="b1" Content="Soon" Click="Button_Click_1" />
-                    <Button Height="25" Grid.Column="3" Name="b2" Content="Soon" Click="Button_Click_1" />
-                    <Button Height="25" Grid.Column="4" Name="b3" Content="Soon" Click="Button_Click_1" />
+                    <Button Height="25" Grid.Column="1" Name="TableViewButton" Content="Просмотр данных" Click="Button_Click_1" />
+                    <Button Height="25" Grid.Column="2" Name="b1" Content="Отчёты" Click="b1_Click" />
+                    <Button Height="25" Grid.Column="3" Name="b2" Content="Настройки" Click="Button_Click_1" />
                 </Grid>
             </Frame.Content>
         </Frame>

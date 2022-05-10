@@ -1,7 +1,11 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +16,12 @@ namespace Kursach
 {
     class Repository
     {
-        private const string _connectionString = "Server=ALEXTRAZA\\SQLEXPRESS;Database=SummerCamp;Trusted_Connection=True;";
+        private const string _connectionString = @"Server=PASHA\SQLEXPRESS;Database='Летний лагерь';Trusted_Connection=True;";
         private static SqlConnection _connection;
         private static SqlCommand _command;
         private static SqlDataReader _reader;
         private static DataTable _table;
+        private static Process _process;
 
         public static void OpenConnection()
         {
@@ -612,7 +617,54 @@ namespace Kursach
             _command.ExecuteNonQuery();
         }
 
+        public static void GenerateReport1()
+        {
+            var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Отчёт по записям в кружок");
+            _command = new SqlCommand("select * from Запись_в_кружок_П order by 2, 3, 4", _connection);
+            _reader = _command.ExecuteReader();
+            sheet.Cells["b2:e2"].Merge = true;
+            sheet.Cells["b2"].Value = "Записи в кружок за весь период";
+            sheet.Cells["b2"].Style.Font.Name = "Verdana";
+            sheet.Cells["b2"].Style.Font.Size = 16;
+            if (_reader.HasRows)
+            {
+                sheet.Cells["b4"].Value = _reader.GetName(1);
+                sheet.Cells["c4"].Value = _reader.GetName(2);
+                sheet.Cells["d4"].Value = _reader.GetName(3);
+                sheet.Cells["e4"].Value = _reader.GetName(4).Replace("_", " ");
+                int i = 5;
+                while(_reader.Read())
+                {
+                    sheet.Cells[$"b{i}"].Value = _reader.GetString(1);
+                    sheet.Cells[$"c{i}"].Value = _reader.GetString(2);
+                    sheet.Cells[$"d{i}"].Value = _reader.GetString(3);
+                    sheet.Cells[$"e{i}"].Value = _reader.GetDateTime(4).ToString("dd/MM/yyyy");
+                    i++;
+                }
+                sheet.Cells[4, 2, i - 1, 5].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color:System.Drawing.Color.Black);
+                sheet.Cells[4, 2, 4, 5].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color: System.Drawing.Color.Black);
+                sheet.Cells[4, 2, 4, 5].Style.Font.Bold = true;
+                sheet.Cells[4, 2, 4, 5].Style.Font.Name = "Verdana";
+                sheet.Cells[4, 2, 4, 5].Style.Font.Size = 16;
+                sheet.Cells[5, 2, i - 1, 5].Style.Font.Name = "Verdana";
+                sheet.Cells[5, 2, i - 1, 5].Style.Font.Size = 14;
 
+                sheet.Cells[2, 2, i - 1, 5].AutoFitColumns();
+
+            }
+            _reader.Close();
+            try
+            {
+                File.WriteAllBytes("Report1.xlsx", package.GetAsByteArray());
+
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Генерация невозможна. Закройте файл с отчётом и повторите попытку");
+            }
+            _process = Process.Start(@"d:\Учёба\Kursach\Kursach\bin\debug\Report1.xlsx");
+        }
 
 
     }

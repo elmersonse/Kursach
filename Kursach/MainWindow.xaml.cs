@@ -40,5 +40,10 @@ namespace Kursach
         {
 
         }
+
+        private void b1_Click(object sender, RoutedEventArgs e)
+        {
+            Repository.GenerateReport1();
+        }
     }
 }
