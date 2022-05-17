@@ -20,10 +20,17 @@ namespace Kursach
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Frame MainFrame;
+        public static Button bu2;
+        public static Button bu3;
+
         public MainWindow()
         {
             InitializeComponent();
             Repository.OpenConnection();
+            MainFrame = BottomFrame;
+            bu2 = b2;
+            bu3 = b3;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -38,12 +45,18 @@ namespace Kursach
 
         private void b3_Click(object sender, RoutedEventArgs e)
         {
+            BottomFrame.Source = new Uri("Authorization/Authorization.xaml", UriKind.RelativeOrAbsolute);
 
         }
 
         private void b1_Click(object sender, RoutedEventArgs e)
         {
             Repository.GenerateReport1();
+        }
+
+        private void b2_Click(object sender, RoutedEventArgs e)
+        {
+            BottomFrame.Source = new Uri("SettingsPage.xaml", UriKind.RelativeOrAbsolute);
         }
     }
 }

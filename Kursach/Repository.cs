@@ -16,12 +16,13 @@ namespace Kursach
 {
     class Repository
     {
-        private const string _connectionString = @"Server=PASHA\SQLEXPRESS;Database='Летний лагерь';Trusted_Connection=True;";
+        private const string _connectionString = @"Server=ALEXTRAZA\SQLEXPRESS;Database=SummerCamp;Trusted_Connection=True;";
         private static SqlConnection _connection;
         private static SqlCommand _command;
         private static SqlDataReader _reader;
         private static DataTable _table;
         private static Process _process;
+        public static CurrentUser currentUser = null;
 
         public static void OpenConnection()
         {
@@ -117,6 +118,38 @@ namespace Kursach
             _table = new DataTable();
             _table.Load(_reader);
             return _table;
+        }
+
+        public static DataTable GetUsers()
+        {
+            _command = new SqlCommand("select * from Пользователи order by 2", _connection);
+            _reader = _command.ExecuteReader();
+            _table = new DataTable();
+            _table.Load(_reader);
+            return _table;
+        }
+
+        public static void DeleteUser(DataGrid grid)
+        {
+            for (int i = 0; i < grid.SelectedItems.Count; i++)
+            {
+                DataRowView rw = grid.SelectedItems[i] as DataRowView;
+                if (rw[0].ToString() == currentUser.Login)
+                {
+                    MessageBox.Show("Нельзя удалить текущего пользователя!");
+                    continue;
+                }
+                _command = new SqlCommand("delete from Авторизация where Логин = @v1", _connection);
+                _command.Parameters.Add("@v1", SqlDbType.VarChar).Value = rw[0].ToString();
+                try
+                {
+                    _command.ExecuteNonQuery();
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Невозможно удалить, есть связанные записи");
+                }
+            }
         }
 
         public static void DeleteVojatiy(DataGrid grid)
@@ -419,6 +452,51 @@ namespace Kursach
 
 
 
+        public static bool AddUser(string s1, string s2, TextBox tb1, PasswordBox tb2, PasswordBox tb3)
+        {
+            _command = new SqlCommand("insert into Авторизация values(@v1, @v2, 2)", _connection);
+            _command.Parameters.Add("@v1", SqlDbType.VarChar).Value = s1;
+            _command.Parameters.Add("@v2", SqlDbType.VarChar).Value = s2;
+            try
+            {
+                _command.ExecuteNonQuery();
+            }
+            catch(SqlException)
+            {
+                MessageBox.Show("Пользователь с таким логином уже существует!");
+                tb1.Clear();
+                tb2.Clear();
+                tb3.Clear();
+                tb1.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        public static void LogIn(string s1, string s2, TextBox tb1, PasswordBox tb2)
+        {
+            _command = new SqlCommand("select Название from Авторизация, Роль where Код_роли=Роль.Код and Логин=@v1 and Пароль=@v2", _connection);
+            _command.Parameters.Add("@v1", SqlDbType.VarChar).Value = s1;
+            _command.Parameters.Add("@v2", SqlDbType.VarChar).Value = s2;
+            _reader = _command.ExecuteReader();
+            if(_reader.HasRows)
+            {
+                _reader.Read();
+                currentUser = new CurrentUser(s1, _reader.GetString(0));
+                MainWindow.bu2.Visibility = Visibility.Visible;
+                MainWindow.bu3.Visibility = Visibility.Hidden;
+                MainWindow.MainFrame.Source = new Uri("MainPage.xaml", UriKind.RelativeOrAbsolute);
+            }
+            else
+            {
+                MessageBox.Show("Неверный логин или пароль!");
+                tb1.Clear();
+                tb2.Clear();
+                tb1.Focus();
+            }
+            _reader.Close();
+        }
+
         public static void AddVojatiy(string s1, string s2, string s3, string s4, string s5)
         {
             _command = new SqlCommand("insert into Вожатый values (@surname, @name, @fathername, @birthdate, @phone)", _connection);
@@ -631,7 +709,7 @@ namespace Kursach
             {
                 sheet.Cells["b4"].Value = _reader.GetName(1);
                 sheet.Cells["c4"].Value = _reader.GetName(2);
-                sheet.Cells["d4"].Value = _reader.GetName(3);
+                sheet.Cells["d4"].Value = _reader.GetName(3) + " кружка";
                 sheet.Cells["e4"].Value = _reader.GetName(4).Replace("_", " ");
                 int i = 5;
                 while(_reader.Read())
@@ -656,16 +734,43 @@ namespace Kursach
             _reader.Close();
             try
             {
-                File.WriteAllBytes("Report1.xlsx", package.GetAsByteArray());
+                File.WriteAllBytes(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report1.xlsx"), package.GetAsByteArray());
 
             }
             catch (IOException)
             {
-                MessageBox.Show("Генерация невозможна. Закройте файл с отчётом и повторите попытку");
+                MessageBox.Show("Генерация невозможна. Закройте файл с отчётом и повторите попытку.");
             }
-            _process = Process.Start(@"d:\Учёба\Kursach\Kursach\bin\debug\Report1.xlsx");
+            _process = Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report1.xlsx"));
         }
 
+        public static void SetCurrentUser(CurrentUser user)
+        {
+            currentUser = user;
+        }
 
+        public static void SetAdmin(DataGrid grid, int p)
+        {
+            for (int i = 0; i < grid.SelectedItems.Count; i++)
+            {
+                DataRowView rw = grid.SelectedItems[i] as DataRowView;
+                if (rw[0].ToString() == currentUser.Login && p == 2)
+                {
+                    MessageBox.Show("Нельзя забрать права у текущего пользователя!");
+                    continue;
+                }
+                _command = new SqlCommand("update Авторизация set Код_роли=@v2 where Логин = @v1", _connection);
+                _command.Parameters.Add("@v1", SqlDbType.VarChar).Value = rw[0].ToString();
+                _command.Parameters.Add("@v2", SqlDbType.Int).Value = p;
+                try
+                {
+                    _command.ExecuteNonQuery();
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Ошибка! Повторите попытку позже.");
+                }
+            }
+        }
     }
 }

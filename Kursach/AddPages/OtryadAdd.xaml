@@ -37,7 +37,7 @@
             <ComboBox Name="tb3" IsReadOnly="True" FontFamily="Verdana" FontSize="14"></ComboBox>
         </StackPanel>
 
-        <Button Name="Confirm" Grid.Row="1" Margin="10" Click="Confirm_Click">Добавить</Button>
-        <Button Name="Back" Grid.Row="1" Grid.Column="1" Margin="10" Click="Back_Click">Назад</Button>
+        <Button Name="Confirm" IsDefault="True" Grid.Row="1" Margin="10" Click="Confirm_Click">Добавить</Button>
+        <Button Name="Back" IsCancel="True" Grid.Row="1" Grid.Column="1" Margin="10" Click="Back_Click">Назад</Button>
     </Grid>
 </Page>

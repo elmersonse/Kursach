@@ -26,5 +26,14 @@ namespace Kursach
                 e.Handled = true;
             }
         }
+
+        public static void CheckLogin(object sender, TextCompositionEventArgs e)
+        {
+            string c = e.Text;
+            if(!Char.IsLetterOrDigit(c[0]) && !Char.IsControl(c[0]))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

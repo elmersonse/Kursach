@@ -10,6 +10,7 @@
       Background="White">
 
     <StackPanel>
+        <Label Name="l1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="30"></Label>
         <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="30">Курсовая работа "Детский летний лагерь"</Label>
         <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Arial Black" FontSize="30">Китица Павел ПО-31"</Label>
     </StackPanel>

@@ -23,6 +23,16 @@ namespace Kursach
         public MainPage()
         {
             InitializeComponent();
+            string temp;
+            if(Repository.currentUser == null)
+            {
+                temp = "Гость";
+            }
+            else
+            {
+                temp = Repository.currentUser.Login;
+            }
+            l1.Content = $"Добро пожаловать, {temp}!";
         }
     }
 }

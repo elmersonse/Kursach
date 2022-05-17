@@ -17,7 +17,19 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
-        <syncfusion:SfAccordion Grid.RowSpan="2" SelectionMode="ZeroOrMore" Margin="10 10 0 10" AccentBrush="White" >
+        <ListBox Grid.RowSpan="2" Margin="10 10 0 10" Name="TablesListBox" SelectionChanged="TablesListBox_SelectionChanged" BorderThickness="0" SelectedIndex="{Binding SelectedIndexA}">
+            <ListBoxItem>Вожатый</ListBoxItem>
+            <ListBoxItem>Запись в кружок</ListBoxItem>
+            <ListBoxItem>Комната</ListBoxItem>
+            <ListBoxItem>Корпус</ListBoxItem>
+            <ListBoxItem>Кружок</ListBoxItem>
+            <ListBoxItem>Мероприятие</ListBoxItem>
+            <ListBoxItem>Отряд</ListBoxItem>
+            <ListBoxItem>Ребёнок</ListBoxItem>
+            <ListBoxItem>Смена</ListBoxItem>
+            <ListBoxItem>Участие в мероприятии</ListBoxItem>
+        </ListBox>
+        <!--<syncfusion:SfAccordion Grid.RowSpan="2" SelectionMode="ZeroOrMore" Margin="10 10 0 10" AccentBrush="White" >
             <syncfusion:SfAccordion.HeaderTemplate>
                 <DataTemplate>
                     <Label Content="{Binding}" Foreground="Black" Opacity="1" FontFamily="Verdana" FontWeight="DemiBold" FontSize="14" Height="28" VerticalAlignment="Center"/>
@@ -44,10 +56,10 @@
                     <ListBoxItem>P3</ListBoxItem>
                 </ListBox>
             </syncfusion:SfAccordionItem>
-        </syncfusion:SfAccordion>
+        </syncfusion:SfAccordion>-->
         <Frame Name="TableFrame" Grid.Column="1" Grid.RowSpan="2" Visibility="Hidden"></Frame>
         <DataGrid Visibility="Visible" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" IsReadOnly="True" Name="DataGrid" Grid.Column="1" Margin="10" SelectedCellsChanged="DataGrid_SelectedCellsChanged"></DataGrid>
-        <Grid Name="ButtonGrid" Grid.Column="1" Grid.Row="1">
+        <Grid IsEnabled="False" Name="ButtonGrid" Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>

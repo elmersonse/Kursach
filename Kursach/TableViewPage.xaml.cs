@@ -27,6 +27,10 @@ namespace Kursach
         {
             InitializeComponent();
             DataContext = new ViewModel();
+            if(Repository.currentUser != null)
+            {
+                ButtonGrid.IsEnabled = true;
+            }
         }
 
         private void TablesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -105,10 +109,7 @@ namespace Kursach
 
         private void ViewsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ViewsListBox.SelectedIndex != -1)
-            {
 
-            }
         }
 
         private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
