@@ -84,6 +84,7 @@ namespace Kursach
                         DataGrid.Columns[0].Visibility = Visibility.Collapsed;
                         DataGrid.Columns[2].Header = "Фамилия вожатого";
                         DataGrid.Columns[3].Header = "Дата начала смены";
+                        DataGrid.Columns[4].Header = "Количество детей";
                         break;
                     case 7:
                         DataGrid.ItemsSource = Repository.LoadRebenok().DefaultView;
