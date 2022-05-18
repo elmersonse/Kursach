@@ -51,7 +51,7 @@ namespace Kursach
 
         private void b1_Click(object sender, RoutedEventArgs e)
         {
-            Repository.GenerateReport1();
+            BottomFrame.Source = new Uri("ReportsPage.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void b2_Click(object sender, RoutedEventArgs e)

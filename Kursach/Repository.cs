@@ -727,6 +727,7 @@ namespace Kursach
                 sheet.Cells[4, 2, 4, 5].Style.Font.Size = 16;
                 sheet.Cells[5, 2, i - 1, 5].Style.Font.Name = "Verdana";
                 sheet.Cells[5, 2, i - 1, 5].Style.Font.Size = 14;
+                sheet.Rows[2].Height = 25;
 
                 sheet.Cells[2, 2, i - 1, 5].AutoFitColumns();
 
@@ -742,6 +743,118 @@ namespace Kursach
                 MessageBox.Show("Генерация невозможна. Закройте файл с отчётом и повторите попытку.");
             }
             _process = Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report1.xlsx"));
+        }
+
+        public static void GenerateReport2()
+        {
+            int sum = 0;
+            var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Отчёт по количествам мероприятий в отрядах");
+            _command = new SqlCommand("select * from КоличествоМероприятий order by 1", _connection);
+            _reader = _command.ExecuteReader();
+            sheet.Cells["b2:c2"].Merge = true;
+            sheet.Cells["b2"].Value = "Количество проведённых мероприятий для каждого отряда";
+            sheet.Cells["b2"].Style.Font.Name = "Verdana";
+            sheet.Cells["b2"].Style.Font.Size = 16;
+            if (_reader.HasRows)
+            {
+                sheet.Cells["b4"].Value = _reader.GetName(0);
+                sheet.Cells["c4"].Value = _reader.GetName(1) + " мероприятий";
+                int i = 5;
+                while (_reader.Read())
+                {
+                    sheet.Cells[$"b{i}"].Value = _reader.GetString(0);
+                    sheet.Cells[$"c{i}"].Value = _reader.GetInt32(1);
+                    sum += _reader.GetInt32(1);
+                    i++;
+                }
+                sheet.Cells[i, 2].Value = "Всего:";
+                sheet.Cells[i, 3].Value = sum;
+                sheet.Cells[i, 2, i, 3].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color: System.Drawing.Color.Black);
+                sheet.Cells[4, 2, i - 1, 3].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color: System.Drawing.Color.Black);
+                sheet.Cells[4, 2, 4, 3].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color: System.Drawing.Color.Black);
+                sheet.Cells[4, 2, 4, 3].Style.Font.Bold = true;
+                sheet.Cells[4, 2, 4, 3].Style.Font.Name = "Verdana";
+                sheet.Cells[4, 2, 4, 3].Style.Font.Size = 16;
+                sheet.Cells[5, 2, i, 3].Style.Font.Name = "Verdana";
+                sheet.Cells[5, 2, i, 3].Style.Font.Size = 14;
+                
+
+                sheet.Cells[2, 2, i - 1, 3].AutoFitColumns();
+                sheet.Cells["b2"].Style.WrapText = true;
+                sheet.Rows[2].Height = 40;
+            }
+            _reader.Close();
+            try
+            {
+                File.WriteAllBytes(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report2.xlsx"), package.GetAsByteArray());
+
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Генерация невозможна. Закройте файл с отчётом и повторите попытку.");
+            }
+            _process = Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report2.xlsx"));
+        }
+
+        public static void GenerateReport3(string s1)
+        {
+            var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Отчёт по детям в указанном отряде");
+            _command = new SqlCommand($"select * from dbo.ОтрядДети(@v1) order by 1, 2", _connection);
+            _command.Parameters.Add("@v1", SqlDbType.VarChar).Value = s1;
+            _reader = _command.ExecuteReader();
+            sheet.Cells["b2:g2"].Merge = true;
+            sheet.Cells["b2"].Value = "Список детей из указанного отряда";
+            sheet.Cells["b2"].Style.Font.Name = "Verdana";
+            sheet.Cells["b2"].Style.Font.Size = 16;
+            if (_reader.HasRows)
+            {
+                sheet.Cells["b4"].Value = "Отряд";
+                sheet.Cells["c4"].Value = _reader.GetName(0);
+                sheet.Cells["d4"].Value = _reader.GetName(1);
+                sheet.Cells["e4"].Value = _reader.GetName(2);
+                sheet.Cells["f4"].Value = _reader.GetName(3).Replace('_', ' ');
+                sheet.Cells["g4"].Value = _reader.GetName(4).Replace('_', ' ');
+                int i = 5;
+                while (_reader.Read())
+                {
+                    sheet.Cells[$"c{i}"].Value = _reader.GetString(0);
+                    sheet.Cells[$"d{i}"].Value = _reader.GetString(1);
+                    sheet.Cells[$"e{i}"].Value = _reader.GetString(2);
+                    sheet.Cells[$"f{i}"].Value = _reader.GetDateTime(3).ToString("dd/MM/yyyy");
+                    sheet.Cells[$"g{i}"].Value = _reader.GetString(4);
+                    i++;
+                }
+                sheet.Cells["b5"].Value = s1;
+                sheet.Cells[5, 2, i - 1, 2].Merge = true;
+                sheet.Cells[5, 2, i - 1, 2].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                sheet.Cells[5, 2, i - 1, 2].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color: System.Drawing.Color.Black);
+                sheet.Cells[4, 2, i - 1, 7].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color: System.Drawing.Color.Black);
+                sheet.Cells[4, 2, 4, 7].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color: System.Drawing.Color.Black);
+                sheet.Cells[4, 2, 4, 7].Style.Font.Bold = true;
+                sheet.Cells[4, 2, 4, 7].Style.Font.Name = "Verdana";
+                sheet.Cells[4, 2, 4, 7].Style.Font.Size = 16;
+                sheet.Cells[5, 2, i - 1, 7].Style.Font.Name = "Verdana";
+                sheet.Cells[5, 2, i - 1, 7].Style.Font.Size = 14;
+                
+
+                sheet.Cells[2, 2, i - 1, 7].AutoFitColumns();
+                sheet.Columns[2].Width = s1.Length * 2 + 5;
+                sheet.Cells["b2"].Style.WrapText = true;
+                sheet.Rows[2].Height = 25;
+            }
+            _reader.Close();
+            try
+            {
+                File.WriteAllBytes(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report3.xlsx"), package.GetAsByteArray());
+
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Генерация невозможна. Закройте файл с отчётом и повторите попытку.");
+            }
+            _process = Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report3.xlsx"));
         }
 
         public static void SetCurrentUser(CurrentUser user)
