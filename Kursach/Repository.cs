@@ -68,7 +68,7 @@ namespace Kursach
 
         public static DataTable LoadKruzhok()
         {
-            _command = new SqlCommand("select * from Кружок_П order by 2", _connection);
+            _command = new SqlCommand("exec ПоказатьКружки", _connection);
             _reader = _command.ExecuteReader();
             _table = new DataTable();
             _table.Load(_reader);
@@ -417,16 +417,28 @@ namespace Kursach
         public static Dictionary<int, string> RebenokCB()
         {
             Dictionary<int, string> ret = new Dictionary<int, string>();
-            _command = new SqlCommand("select Код, Фамилия, Имя from Ребёнок", _connection);
+            _command = new SqlCommand("select Ребёнок.Код, Фамилия, Имя, Дата_начала, Дата_окончания from Ребёнок ,Отряд, Смена WHERE Отряд.Код=Код_отряда AND Смена.Код=Код_смены", _connection);
             SqlDataReader reader = _command.ExecuteReader();
             if(reader.HasRows)
             {
                 while(reader.Read())
                 {
-                    ret.Add(reader.GetInt32(0), $"{reader.GetString(1)} {reader.GetString(2)}");
+                    ret.Add(reader.GetInt32(0), $"{reader.GetString(1)} {reader.GetString(2)} ({reader.GetDateTime(3).ToString("dd/MM/yyyy")} - {reader.GetDateTime(4).ToString("dd/MM/yyyy")})");
                 }
             }
             reader.Close();
+            return ret;
+        }
+
+        public static string RebenokSmena(int rcode)
+        {
+            string ret;
+            _command = new SqlCommand("select Дата_начала from Смена, Ребёнок, Отряд where Смена.Код=Код_смены and Отряд.Код=Код_отряда and Ребёнок.Код=@v1", _connection);
+            _command.Parameters.Add("@v1", SqlDbType.Int).Value = rcode;
+            _reader = _command.ExecuteReader();
+            _reader.Read();
+            ret = _reader.GetDateTime(0).ToString("dd/MM/yyyy");
+            _reader.Close();
             return ret;
         }
         
@@ -445,11 +457,6 @@ namespace Kursach
             reader.Close();
             return ret;
         }
-
-
-
-
-
 
 
         public static bool AddUser(string s1, string s2, TextBox tb1, PasswordBox tb2, PasswordBox tb3)
@@ -485,6 +492,7 @@ namespace Kursach
                 currentUser = new CurrentUser(s1, _reader.GetString(0));
                 MainWindow.bu2.Visibility = Visibility.Visible;
                 MainWindow.bu3.Visibility = Visibility.Hidden;
+                MainWindow.bu4.IsEnabled = true;
                 MainWindow.MainFrame.Source = new Uri("MainPage.xaml", UriKind.RelativeOrAbsolute);
             }
             else
@@ -574,7 +582,7 @@ namespace Kursach
 
         public static void AddUchastie(string s1, string s2, string s3)
         {
-            _command = new SqlCommand("insert into Участие_в_мероприятии values (@v1, @v2, @v3)", _connection);
+            _command = new SqlCommand("exec ДобавитьУчастие @v1, @v2, @v3", _connection);
             _command.Parameters.Add("@v1", SqlDbType.Int).Value = s1;
             _command.Parameters.Add("@v2", SqlDbType.Int).Value = s2;
             _command.Parameters.Add("@v3", SqlDbType.Date).Value = s3;
@@ -707,17 +715,17 @@ namespace Kursach
             sheet.Cells["b2"].Style.Font.Size = 16;
             if (_reader.HasRows)
             {
-                sheet.Cells["b4"].Value = _reader.GetName(1);
-                sheet.Cells["c4"].Value = _reader.GetName(2);
-                sheet.Cells["d4"].Value = _reader.GetName(3) + " кружка";
-                sheet.Cells["e4"].Value = _reader.GetName(4).Replace("_", " ");
+                sheet.Cells["b4"].Value = _reader.GetName(2);
+                sheet.Cells["c4"].Value = _reader.GetName(3);
+                sheet.Cells["d4"].Value = _reader.GetName(4) + " кружка";
+                sheet.Cells["e4"].Value = _reader.GetName(5).Replace("_", " ");
                 int i = 5;
                 while(_reader.Read())
                 {
-                    sheet.Cells[$"b{i}"].Value = _reader.GetString(1);
-                    sheet.Cells[$"c{i}"].Value = _reader.GetString(2);
-                    sheet.Cells[$"d{i}"].Value = _reader.GetString(3);
-                    sheet.Cells[$"e{i}"].Value = _reader.GetDateTime(4).ToString("dd/MM/yyyy");
+                    sheet.Cells[$"b{i}"].Value = _reader.GetString(2);
+                    sheet.Cells[$"c{i}"].Value = _reader.GetString(3);
+                    sheet.Cells[$"d{i}"].Value = _reader.GetString(4);
+                    sheet.Cells[$"e{i}"].Value = _reader.GetDateTime(5).ToString("dd/MM/yyyy");
                     i++;
                 }
                 sheet.Cells[4, 2, i - 1, 5].Style.Border.BorderAround(ExcelBorderStyle.Thick, Color:System.Drawing.Color.Black);
@@ -736,7 +744,6 @@ namespace Kursach
             try
             {
                 File.WriteAllBytes(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "Report1.xlsx"), package.GetAsByteArray());
-
             }
             catch (IOException)
             {

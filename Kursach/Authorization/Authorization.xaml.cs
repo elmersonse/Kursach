@@ -23,6 +23,7 @@ namespace Kursach.Authorization
         public Authorization()
         {
             InitializeComponent();
+            tb1.Focus();
         }
 
         private void CheckLogin(object sender, TextCompositionEventArgs e)

@@ -23,6 +23,7 @@ namespace Kursach.Authorization
         public Registration()
         {
             InitializeComponent();
+            tb1.Focus();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

@@ -41,6 +41,7 @@ namespace Kursach
         {
             MainWindow.bu2.Visibility = Visibility.Hidden;
             MainWindow.bu3.Visibility = Visibility.Visible;
+            MainWindow.bu4.IsEnabled = false;
             Repository.currentUser = null;
             MainWindow.MainFrame.Source = new Uri("MainPage.xaml", UriKind.RelativeOrAbsolute);
         }

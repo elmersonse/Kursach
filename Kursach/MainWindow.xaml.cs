@@ -23,6 +23,7 @@ namespace Kursach
         public static Frame MainFrame;
         public static Button bu2;
         public static Button bu3;
+        public static Button bu4;
 
         public MainWindow()
         {
@@ -31,6 +32,7 @@ namespace Kursach
             MainFrame = BottomFrame;
             bu2 = b2;
             bu3 = b3;
+            bu4 = b1;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

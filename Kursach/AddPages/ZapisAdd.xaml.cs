@@ -59,19 +59,19 @@ namespace Kursach.AddPages
             editcode = rw[0].ToString();
             for (int i = 0; i < RebenokCB.Count; i++)
             {
-                if (RebenokCB.ElementAt(i).Value.Contains($"{rw[1]} {rw[2]}"))
+                if (RebenokCB.ElementAt(i).Value.Contains($"{rw[2]} {rw[3]}") && RebenokCB.ElementAt(i).Value.Contains(Repository.RebenokSmena(int.Parse(rw[1].ToString()))))
                 {
                     tb1.SelectedIndex = i;
                 }
             }
             for (int i = 0; i < KruzhokCB.Count; i++)
             {
-                if (KruzhokCB.ElementAt(i).Value.Contains(rw[3].ToString()))
+                if (KruzhokCB.ElementAt(i).Value.Contains(rw[4].ToString()))
                 {
                     tb2.SelectedIndex = i;
                 }
             }
-            tb3.Text = rw[4].ToString();
+            tb3.Text = rw[5].ToString();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -127,7 +127,8 @@ namespace Kursach.AddPages
             }
             DataGrid.ItemsSource = Repository.LoadZapis().DefaultView;
             DataGrid.Columns[0].Visibility = Visibility.Collapsed;
-            DataGrid.Columns[4].Header = "Дата записи";
+            DataGrid.Columns[1].Visibility = Visibility.Collapsed;
+            DataGrid.Columns[5].Header = "Дата записи";
             DataGrid.Visibility = Visibility.Visible;
             Grid.Visibility = Visibility.Visible;
             Frame.Visibility = Visibility.Hidden;

@@ -23,7 +23,7 @@
                     </Grid.ColumnDefinitions>
                     <Button Height="25" Grid.Column="0" Name="MainPageButton" Content="Главная страница" Click="Button_Click" />
                     <Button Height="25" Grid.Column="1" Name="TableViewButton" Content="Просмотр данных" Click="Button_Click_1" />
-                    <Button Height="25" Grid.Column="2" Name="b1" Content="Отчёты" Click="b1_Click" />
+                    <Button IsEnabled="False" Height="25" Grid.Column="2" Name="b1" Content="Отчёты" Click="b1_Click" />
                     <Grid Grid.Column="3" >
                         <Button Visibility="Hidden" Height="25" Name="b2" Content="Настройки" Click="b2_Click" />
                         <Button Height="25" Grid.Column="3" Name="b3" Content="Вход" Click="b3_Click" />

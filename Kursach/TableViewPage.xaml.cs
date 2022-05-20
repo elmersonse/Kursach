@@ -52,7 +52,8 @@ namespace Kursach
                     case 1:
                         DataGrid.ItemsSource = Repository.LoadZapis().DefaultView;
                         DataGrid.Columns[0].Visibility = Visibility.Collapsed;
-                        DataGrid.Columns[4].Header = "Дата записи";
+                        DataGrid.Columns[1].Visibility = Visibility.Collapsed;
+                        DataGrid.Columns[5].Header = "Дата записи";
                         break;
                     case 2:
                         DataGrid.ItemsSource = Repository.LoadKomnata().DefaultView;
@@ -192,7 +193,8 @@ namespace Kursach
                     Repository.DeleteZapis(DataGrid);
                     DataGrid.ItemsSource = Repository.LoadZapis().DefaultView;
                     DataGrid.Columns[0].Visibility = Visibility.Collapsed;
-                    DataGrid.Columns[4].Header = "Дата записи";
+                    DataGrid.Columns[1].Visibility = Visibility.Collapsed;
+                    DataGrid.Columns[5].Header = "Дата записи";
                     break;
                 case 2:
                     Repository.DeleteKomnata(DataGrid);
